@@ -39,11 +39,11 @@ class FlowSession(DefaultSession):
         count = 0
         direction = PacketDirection.FORWARD
 
-        if self.output_mode != "flow":
-            if "TCP" not in packet:
-                return
-            elif "UDP" not in packet:
-                return
+        # if self.output_mode != "flow":
+        #     if "TCP" not in packet:
+        #         return
+        #     elif "UDP" not in packet:
+        #         return
 
         try:
             # Creates a key variable to check
@@ -114,16 +114,9 @@ class FlowSession(DefaultSession):
                 or flow.duration > 90
             ):
                 data = flow.get_data()
-
-                if self.csv_line == 0:
-                    self.csv_writer.writerow(data.keys())
-
-                self.csv_writer.writerow(data.values())
-                self.csv_line += 1
-
                 del self.flows[k]
-        if not self.url_model:
-            print("Garbage Collection Finished. Flows = {}".format(len(self.flows)))
+
+                # return data
 
 
 def generate_session_class(output_mode, output_file, url_model):
