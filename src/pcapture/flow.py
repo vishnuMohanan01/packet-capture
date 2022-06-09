@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any
 
 import constants
-from features.context import packet_flow_key
+# from features.context import packet_flow_key
 from features.context.packet_direction import PacketDirection
 from features.flag_count import FlagCount
 from features.flow_bytes import FlowBytes
@@ -28,15 +28,15 @@ class Flow:
             self.src_ip,
             self.src_port,
             self.dest_port,
-        ) = packet_flow_key.get_packet_flow_key(packet, direction)
+        ) = PacketDirection.get_packet_flow_key()
 
         self.packets = []
         self.flow_interarrival_time = []
         self.latest_timestamp = 0
         self.start_timestamp = 0
         self.init_window_size = {
-            PacketDirection.FORWARD: 0,
-            PacketDirection.REVERSE: 0,
+            PacketDirection.Direction.FORWARD: 0,
+            PacketDirection.Direction.REVERSE: 0,
         }
 
         self.start_active = 0
