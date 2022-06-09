@@ -1,14 +1,12 @@
 from scapy.sendrecv import AsyncSniffer
 
-from flow_session import generate_session_class
+from custom_session import generate_session_class
 
 
-def create_sniffer(
-    input_interface, output_mode, output_file, url_model=None
-):
+def create_sniffer(input_interface, sys_dst_ip):
     assert (input_interface is None)
 
-    custom_session = generate_session_class(output_mode, output_file, url_model)
+    custom_session = generate_session_class(sys_dst_ip)
 
     return AsyncSniffer(
         iface=input_interface,
@@ -22,15 +20,11 @@ def create_sniffer(
 
 def main():
     input_interface = None
-    output_mode = None
-    output = None
-    url_model = None
+    sys_dst_ip = None
 
     sniffer = create_sniffer(
         input_interface,
-        output_mode,
-        output,
-        url_model,
+        sys_dst_ip=sys_dst_ip
     )
 
     sniffer.start()
