@@ -8,13 +8,13 @@ def create_sniffer(
 ):
     assert (input_interface is None)
 
-    new_flow_session = generate_session_class(output_mode, output_file, url_model)
+    custom_session = generate_session_class(output_mode, output_file, url_model)
 
     return AsyncSniffer(
         iface=input_interface,
         filter="ip and (tcp or udp)",
         prn=None,
-        session=new_flow_session,
+        session=custom_session,
         store=False,
         count=0
     )
@@ -32,6 +32,7 @@ def main():
         output,
         url_model,
     )
+
     sniffer.start()
 
     try:
