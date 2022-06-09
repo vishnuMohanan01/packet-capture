@@ -1,15 +1,15 @@
 from enum import Enum
 from typing import Any
 
-from . import constants
-from .features.context import packet_flow_key
-from .features.context.packet_direction import PacketDirection
-from .features.flag_count import FlagCount
-from .features.flow_bytes import FlowBytes
-from .features.packet_count import PacketCount
-from .features.packet_length import PacketLength
-from .features.packet_time import PacketTime
-from .utils import get_statistics
+import constants
+from features.context import packet_flow_key
+from features.context.packet_direction import PacketDirection
+from features.flag_count import FlagCount
+from features.flow_bytes import FlowBytes
+from features.packet_count import PacketCount
+from features.packet_length import PacketLength
+from features.packet_time import PacketTime
+from utils import get_statistics
 
 
 class Flow:
