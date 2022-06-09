@@ -18,6 +18,7 @@ def create_sniffer(input_interface, sys_dst_ip):
     )
 
 
+# TODO: this should be replaced with different func name
 def main():
     input_interface = None
     sys_dst_ip = None
@@ -37,5 +38,6 @@ def main():
         sniffer.join()
 
 
+# TODO: should be removed
 if __name__ == "__main__":
     main()
