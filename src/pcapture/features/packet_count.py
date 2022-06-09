@@ -49,8 +49,8 @@ class PacketCount:
         Returns:
             float: down/up ratio
         """
-        forward_size = self.get_total(PacketDirection.FORWARD)
-        backward_size = self.get_total(PacketDirection.REVERSE)
+        forward_size = self.get_total(PacketDirection.Direction.FORWARD)
+        backward_size = self.get_total(PacketDirection.Direction.REVERSE)
         if forward_size > 0:
             return backward_size / forward_size
         return 0
