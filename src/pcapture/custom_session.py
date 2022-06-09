@@ -19,19 +19,25 @@ class CustomSession(DefaultSession):
         self.packets_count = 0
         self.clumped_flows_per_label = defaultdict(list)
 
-        super(FlowSession, self).__init__(*args, **kwargs)
+        super(CustomSession, self).__init__(*args, **kwargs)
 
     def toPacketList(self):
         # Sniffer finished all the packets it needed to sniff.
         # It is not a good place for this, we need to somehow define a finish signal for AsyncSniffer
 
-        return super(FlowSession, self).toPacketList()
+        return super(CustomSession, self).toPacketList()
 
     def on_packet_received(self, packet):
         packet_direction = PacketDirection(packet=packet, sys_dst_ip=self.sys_dst_ip)
         direction = packet_direction.get_direction()
 
-        flow = Flow(packet, direction)
+        flow = Flow(packet, direction, packet_direction)
+        flow.add_packet(packet, direction)
+        data = flow.get_data()
+
+        print(data)
+        print()
+        # self.prn("arg1", "arg2")
 
 
 def generate_session_class(dst_ip):
