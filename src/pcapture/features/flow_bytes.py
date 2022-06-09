@@ -64,7 +64,7 @@ class FlowBytes:
         return sum(
             len(packet)
             for packet, direction in feat.packets
-            if direction == PacketDirection.FORWARD
+            if direction == PacketDirection.Direction.FORWARD
         )
 
     def get_sent_rate(self) -> float:
@@ -96,7 +96,7 @@ class FlowBytes:
         return sum(
             len(packet)
             for packet, direction in packets
-            if direction == PacketDirection.REVERSE
+            if direction == PacketDirection.Direction.REVERSE
         )
 
     def get_received_rate(self) -> float:
@@ -129,7 +129,7 @@ class FlowBytes:
         return sum(
             self._header_size(packet)
             for packet, direction in packets
-            if direction == PacketDirection.FORWARD
+            if direction == PacketDirection.Direction.FORWARD
         )
 
     def get_forward_rate(self) -> int:
@@ -169,7 +169,7 @@ class FlowBytes:
         return sum(
             self._header_size(packet)
             for packet, direction in packets
-            if direction == PacketDirection.REVERSE
+            if direction == PacketDirection.Direction.REVERSE
         )
 
     def get_min_forward_header_bytes(self) -> int:
@@ -179,16 +179,18 @@ class FlowBytes:
             int: The amount of bytes.
 
         """
-
         packets = self.feature.packets
 
         if not packets:
             return 0
 
+        header_sizes = [self._header_size(packet) for packet, direction in packets if direction == PacketDirection.Direction.FORWARD]
+
+        if not header_sizes:
+            return 0
+
         return min(
-            self._header_size(packet)
-            for packet, direction in packets
-            if direction == PacketDirection.FORWARD
+            header_sizes
         )
 
     def get_reverse_rate(self) -> int:
@@ -238,7 +240,7 @@ class FlowBytes:
         return [packet["IP"].ttl for packet, _ in feat.packets][0]
 
     def get_bytes_per_bulk(self, packet_direction):
-        if packet_direction == PacketDirection.FORWARD:
+        if packet_direction == PacketDirection.Direction.FORWARD:
             if self.feature.forward_bulk_count != 0:
                 return self.feature.forward_bulk_size / self.feature.forward_bulk_count
         else:
@@ -249,7 +251,7 @@ class FlowBytes:
         return 0
 
     def get_packets_per_bulk(self, packet_direction):
-        if packet_direction == PacketDirection.FORWARD:
+        if packet_direction == PacketDirection.Direction.FORWARD:
             if self.feature.forward_bulk_count != 0:
                 return (
                     self.feature.forward_bulk_packet_count
@@ -264,7 +266,7 @@ class FlowBytes:
         return 0
 
     def get_bulk_rate(self, packet_direction):
-        if packet_direction == PacketDirection.FORWARD:
+        if packet_direction == PacketDirection.Direction.FORWARD:
             if self.feature.forward_bulk_count != 0:
                 return (
                     self.feature.forward_bulk_size / self.feature.forward_bulk_duration
